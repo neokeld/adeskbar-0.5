@@ -1,197 +1,217 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# FR Translation.
+# Copyright (C) 2010-2013
+# This file is distributed under the same license as the adeskbar package.
+# David Art (ADcomp) <david.madbox@gmail.com>, 2010
 #
 #, fuzzy
 msgid ""
-msgstr ""
+
 "Project-Id-Version: adeskbar\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-23 21:40+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: David Art (ADcomp) <david.madbox@gmail.com>\n"
+"PO-Revision-Date: 2012-12-29 11:51+010\n"
+"Last-Translator: Arnaud Duforat (neokeld) <neokeld@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../adesk/barconf.py:280
+#: ../src/adesk/barconf.py:105
 msgid "Settings"
 msgstr "Configuration"
 
-#: ../adesk/barconf.py:297
+#: ../src/adesk/barconf.py:122
 msgid "preferences"
 msgstr "préférences"
 
-#: ../adesk/barconf.py:301
+#: ../src/adesk/barconf.py:126
 msgid "position"
 msgstr ""
 
-#: ../adesk/barconf.py:305
+#: ../src/adesk/barconf.py:130
 msgid "launchers"
 msgstr "lanceurs"
 
-#: ../adesk/barconf.py:309
+#: ../src/adesk/barconf.py:134
 msgid "advanced"
 msgstr "avancé"
 
-#: ../adesk/barconf.py:313
-msgid "about"
-msgstr "à propos"
+#: ../src/adesk/barconf.py:227
+msgid "Size"
+msgstr "Taille"
 
-#: ../adesk/barconf.py:377
-msgid "Icon size"
-msgstr "Taille des icones"
+#: ../src/adesk/barconf.py:244
+msgid "Edgy"
+msgstr ""
 
-#: ../adesk/barconf.py:378
-msgid "Hidden size"
-msgstr "Taille (minimisé)"
+#: ../src/adesk/barconf.py:245
+msgid "Floaty"
+msgstr ""
 
-#: ../adesk/barconf.py:396
+#: ../src/adesk/barconf.py:247
+msgid "3d"
+msgstr ""
+
+#: ../src/adesk/barconf.py:252
+msgid "Style"
+msgstr ""
+
+#: ../src/adesk/barconf.py:267
+msgid "Icons effects"
+msgstr "Effets icones"
+
+#: ../src/adesk/barconf.py:274
+msgid "Always visible"
+msgstr "Toujours visible"
+
+#: ../src/adesk/barconf.py:275
+msgid "Autohide"
+msgstr "Masquer automatiquement"
+
+#: ../src/adesk/barconf.py:278
+msgid "Intellihide"
+msgstr ""
+
+#: ../src/adesk/barconf.py:283
+msgid "Behavior"
+msgstr "Comportement"
+
+#: ../src/adesk/barconf.py:293
 msgid "fixed mode ( aka \"panel\" )"
 msgstr "Mode \"panel\""
 
-#: ../adesk/barconf.py:407
+#: ../src/adesk/barconf.py:304
 msgid "reserve space at screen edge"
 msgstr "réserver l'espace"
 
-#: ../adesk/barconf.py:428
+#: ../src/adesk/barconf.py:318
 msgid "Show on mouse over"
 msgstr "Afficher - survol souris"
 
-#: ../adesk/barconf.py:433
+#: ../src/adesk/barconf.py:325
 msgid "Keep below other windows"
 msgstr "Toujours en-dessous"
 
-#: ../adesk/barconf.py:450
-msgid "Hiding"
-msgstr "Minimisation"
-
-#: ../adesk/barconf.py:456
-msgid "smooth hiding ( animation )"
-msgstr "avec animation"
-
-#: ../adesk/barconf.py:461
+#: ../src/adesk/barconf.py:332
 msgid "Show launchers tooltips"
 msgstr "Afficher les info-bulles"
 
-#: ../adesk/barconf.py:501
+#: ../src/adesk/barconf.py:391
 msgid "Select position on screen"
 msgstr "Sélectionner la position sur l'écran"
 
-#: ../adesk/barconf.py:554
+#: ../src/adesk/barconf.py:445
 msgid "Offset - position"
 msgstr ""
 
-#: ../adesk/barconf.py:566
+#: ../src/adesk/barconf.py:458
 msgid "Offset - align"
 msgstr "Offset - alignement"
 
-#: ../adesk/barconf.py:603
+#: ../src/adesk/barconf.py:499
 msgid "add from menu"
 msgstr "ajouter depuis le menu"
 
-#: ../adesk/barconf.py:608
+#: ../src/adesk/barconf.py:505
 msgid "add plugin"
 msgstr "ajouter un plugin"
 
-#: ../adesk/barconf.py:613
-msgid "remove"
-msgstr "supprimer"
-
-#: ../adesk/barconf.py:618
+#: ../src/adesk/barconf.py:511
 msgid "add custom launcher"
 msgstr "ajouter un lanceur"
 
-#: ../adesk/barconf.py:643
+#: ../src/adesk/barconf.py:517
+msgid "remove"
+msgstr "supprimer"
+
+#: ../src/adesk/barconf.py:555
 msgid "Opacity"
 msgstr "Opacité"
 
-#: ../adesk/barconf.py:654
+#: ../src/adesk/barconf.py:573
 msgid "Bar size"
 msgstr "Taille de la barre"
 
-#: ../adesk/barconf.py:665
-msgid "Space between icon"
-msgstr "Espacement entre icones"
-
-#: ../adesk/barconf.py:676
-msgid "Icon padding"
-msgstr "Espacement avec la barre"
-
-#: ../adesk/barconf.py:688
-msgid "Background color [ Bar ]"
-msgstr "Couleur fond"
-
-#: ../adesk/barconf.py:693
-msgid "Show border"
-msgstr "Afficher bordure"
-
-#: ../adesk/barconf.py:706
-msgid "add some gradients"
-msgstr "ajout dégradé"
-
-#: ../adesk/barconf.py:711
-msgid "Fake Transparency is no composite"
-msgstr "Fausse transparence"
-
-#: ../adesk/barconf.py:724
-msgid "Background color [ Tooltips / Plugins ]"
-msgstr "Couleur fond [ Tooltips / Plugins ]"
-
-#: ../adesk/barconf.py:733
-msgid "Border color"
-msgstr "Couleur bordure"
-
-#: ../adesk/barconf.py:747
-msgid "Zoom Factor"
-msgstr "Facteur de zoom"
-
-#: ../adesk/barconf.py:757
+#: ../src/adesk/barconf.py:585
 msgid "Rounded"
 msgstr "Arrondi"
 
-#: ../adesk/barconf.py:763
-msgid "Fade effect when inactive"
-msgstr "Transparence si inactif"
+#: ../src/adesk/barconf.py:600
+msgid "Space between icon"
+msgstr "Espacement entre icones"
 
-#: ../adesk/barconf.py:776
+#: ../src/adesk/barconf.py:612
+msgid "Icon padding"
+msgstr "Espacement avec la barre"
+
+#: ../src/adesk/barconf.py:624
+msgid "Zoom Factor"
+msgstr "Facteur de zoom"
+
+#: ../src/adesk/barconf.py:639
+msgid "Background color [ Bar ]"
+msgstr "Couleur fond"
+
+#: ../src/adesk/barconf.py:652
+msgid "add some gradients"
+msgstr "ajout dégradé"
+
+#: ../src/adesk/barconf.py:663
+msgid "Show border"
+msgstr "Afficher bordure"
+
+#: ../src/adesk/barconf.py:686
+msgid "Background color [ Tooltips / Plugins ]"
+msgstr "Couleur fond [ Tooltips / Plugins ]"
+
+#: ../src/adesk/barconf.py:695
+msgid "Border color"
+msgstr "Couleur bordure"
+
+#: ../src/adesk/barconf.py:710
+msgid "Hidden size"
+msgstr "Taille (minimisé)"
+
+#: ../src/adesk/barconf.py:722
+msgid "Hide after tempo (sec)"
+msgstr "Minimiser après (sec)"
+
+#: ../src/adesk/barconf.py:727
+msgid "smooth hiding ( animation )"
+msgstr "avec animation"
+
+#: ../src/adesk/barconf.py:734
 msgid "Fully transparent when hidden"
 msgstr "Transparent si minimisé"
 
-#: ../adesk/barconf.py:965
-msgid "Edit"
-msgstr "Edition"
-
-#: ../adesk/barconf.py:977
+#: ../src/adesk/barconf.py:1174
 msgid "Name:"
 msgstr "Nom"
 
-#: ../adesk/barconf.py:986
+#: ../src/adesk/barconf.py:1183
 msgid "Plugin:"
 msgstr ""
 
-#: ../adesk/barconf.py:989
+#: ../src/adesk/barconf.py:1186
 msgid "Command:"
 msgstr "Commande"
 
-#: ../adesk/barconf.py:995
+#: ../src/adesk/barconf.py:1192
 msgid "Icon:"
 msgstr "Icones"
 
-#: ../adesk/barconf.py:1097
+#: ../src/adesk/barconf.py:1308
 msgid "Select image file.."
 msgstr "Sélection d'une image"
 
-#: ../adesk/barconf.py:1107
+#: ../src/adesk/barconf.py:1318
 msgid "Images"
 msgstr ""
 
-#: ../adesk/barconf.py:1117 ../adesk/barconf.py:1153
+#: ../src/adesk/barconf.py:1328 ../src/adesk/barconf.py:1364
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: ../adesk/barconf.py:1143
+#: ../src/adesk/barconf.py:1354
 msgid "Select command.."
 msgstr "Sélection commande"

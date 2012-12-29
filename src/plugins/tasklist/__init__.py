@@ -17,7 +17,8 @@ try:
     import wnck
 except:
     Core.logINFO('Plugin "tasklist" need python-wnck')
-    Core.logINFO(' -- debian/ubuntu : "sudo apt-get install python-wnck"')
+    Core.logINFO(' -- debian/mint/ubuntu: "sudo apt-get install python-wnck"')
+    Core.logINFO(' -- fedora: "sudo yum install gnome-python2-libwnck"')
 
 def_settings = { 
     'desktop_color':'#EEEEEE', 'desktop_font':'Sans Bold 12',
