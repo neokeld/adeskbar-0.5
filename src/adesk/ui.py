@@ -309,7 +309,8 @@ class PopupWindow(Window):
         x, y = 0, 0
 
         if self.bar.cfg['position'] == "top" or self.bar.cfg['position'] == "bottom":
-            x = window_x + plugin_x - int( (w - self.bar.cfg['icon_size'])/2.0 )
+            # plugin position (centered)
+	    x = window_x + plugin_x + plugin_w/2 - w/2
 
             # check if window isn't out of screen
             if x < offset_screen:
