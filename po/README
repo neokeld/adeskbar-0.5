@@ -1,0 +1,9 @@
+Here are the .po (the translations files).
+
+To update adeskbar.pot (an example of .po), run create_pot.sh
+
+To create a new translations file, you can copy adeskbar.pot
+
+After an update on translations, run update_locale.sh
+
+To test, at adeskbar-0.5/src, run python main.py

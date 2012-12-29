@@ -34,7 +34,7 @@ msgstr "lanceurs"
 
 #: ../adesk/barconf.py:309
 msgid "advanced"
-msgstr ""
+msgstr "avancé"
 
 #: ../adesk/barconf.py:313
 msgid "about"
@@ -74,7 +74,7 @@ msgstr "avec animation"
 
 #: ../adesk/barconf.py:461
 msgid "Show launchers tooltips"
-msgstr "Afficher les info-bulle"
+msgstr "Afficher les info-bulles"
 
 #: ../adesk/barconf.py:501
 msgid "Select position on screen"
@@ -106,7 +106,7 @@ msgstr "ajouter un lanceur"
 
 #: ../adesk/barconf.py:643
 msgid "Opacity"
-msgstr "Opcacité"
+msgstr "Opacité"
 
 #: ../adesk/barconf.py:654
 msgid "Bar size"
@@ -146,7 +146,7 @@ msgstr "Couleur bordure"
 
 #: ../adesk/barconf.py:747
 msgid "Zoom Factor"
-msgstr ""
+msgstr "Facteur de zoom"
 
 #: ../adesk/barconf.py:757
 msgid "Rounded"

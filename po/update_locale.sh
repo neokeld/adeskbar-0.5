@@ -6,4 +6,6 @@ for PO in *.po; do
     mkdir -p ../locale/$DIR/LC_MESSAGES
     #~ echo "msgfmt --output-file=../locale/$DIR/LC_MESSAGES/adeskbar.mo $PO"
     msgfmt --output-file=../locale/$DIR/LC_MESSAGES/adeskbar.mo $PO
+    cp -rf ../locale ../src/
+    rm -rf ../locale
 done
