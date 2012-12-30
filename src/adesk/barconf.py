@@ -1367,25 +1367,12 @@ class Create_Custom_Item:
         filter.set_name(_("All files"))
         filter.add_pattern("*")
         dialog.add_filter(filter)
-        dialog.set_current_folder('/usr/share/applications')
+        dialog.set_current_folder('/usr/bin')
 
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-            ## .desktop file selected ?
             filename = dialog.get_filename()
-            if '.desktop' in filename:
-                cmd, icon, name, category = Menu.info_desktop(filename)
-                #~ print name, cmd, icon
-                self.text_command.set_text(cmd)
-                self.text_name.set_text(name)
-                if icon:
-                    icon = Menu.find_icon(icon)
-                if not icon:
-                    icon = 'images/def_icon.png'
-                self.icon_image.set_from_pixbuf(core.pixbuf_from_file(icon, 64, 64))
-                self.text_icon.set_text(icon)
-            else:
-                self.text_command.set_text(filename)
+            self.text_command.set_text(filename)
         dialog.destroy()
 
 
