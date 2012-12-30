@@ -26,6 +26,7 @@ def logINFO(msg, from_mod=""):
             mod = "(" + from_mod + ") -- "
         print ("[adeskbar] %s%s" % (mod, msg))
 
+
 def launch_command(cmd):
     if cmd != ' ' and cmd != None and len(cmd)!=0:
         os.chdir(os.environ['HOME'])
@@ -158,43 +159,6 @@ def image_button(label, image, size, border=4):
     bt.add(box)
     bt.show_all()
     return bt
-
-def set_icon(icon, dst, item=None, size=None):
-    
-    # update icon for gtk.Image
-    if type(dst) == gtk.Image:
-        
-        if not size:
-            size = 64
-        
-        if os.path.isfile(icon) and '.' in icon:
-            try:
-                dst.set_from_pixbuf(pixbuf_from_file(icon, size, size))
-            except:
-                dst.set_from_stock(gtk.STOCK_MISSING_IMAGE, gtk.ICON_SIZE_DIALOG)
-                
-        elif ICON_THEME.has_icon(icon):
-            pixbuf = ICON_THEME.load_icon(icon, size, gtk.ICON_LOOKUP_USE_BUILTIN)
-            dst.set_from_pixbuf(pixbuf)
-        else:
-            dst.set_from_stock(gtk.STOCK_MISSING_IMAGE, gtk.ICON_SIZE_DIALOG)
-            
-    # update icon for "view"
-    else:
-
-        # Update icon
-        try:
-            if os.path.exists(icon) and '.' in icon:
-                dst.set_value(item, ID_ICON, pixbuf_from_file(icon, 32, 32) )
-            elif ICON_THEME.has_icon(icon):
-                pixbuf = ICON_THEME.load_icon(icon, 32, gtk.ICON_LOOKUP_USE_BUILTIN)
-                dst.set_value(item, ID_ICON, pixbuf)
-            else:
-                dst.set_value(item, ID_ICON, pixbuf_from_file('images/def_icon.png', 32, 32) )
-                
-        except:
-            print '* Listview Error while adding pixbuf  .. !'
-
 
 def get_pixbuf_icon(icon_value, size=24):
     if not icon_value:
