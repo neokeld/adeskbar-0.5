@@ -256,10 +256,10 @@ class Conf():
         ## Icons effects
         self.icons_effects = gtk.combo_box_new_text()
         self.icons_effects.connect("changed", self.set_icons_effects)
-        self.icons_effects.append_text('None')
-        self.icons_effects.append_text('Glow')
-        self.icons_effects.append_text('Simple')
-        self.icons_effects.append_text('Zoom')
+        self.icons_effects.append_text(_('None'))
+        self.icons_effects.append_text(_('Glow'))
+        self.icons_effects.append_text(_('Simple'))
+        self.icons_effects.append_text(_('Zoom'))
         self.icons_effects.set_active(self.config['icons_effects'])
 
         box = gtk.HBox()
@@ -844,8 +844,9 @@ class Conf():
         app = core.App()
         app.Name = 'Custom'
         app.Icon = 'system-run'
-        self.new_item_menu(widget, app)
-        self.edit_item(self.view)
+	name = app.Name
+	icon = app.Icon
+	Create_Custom_Item(self, None, None, False, app, name, icon, " ", widget)
 
     def new_item(self):
         index = str(int(time.time()))
@@ -1129,29 +1130,18 @@ class Conf():
         if self.config['tooltips']:
             self.bar.tooltip = ui.TooltipWindow(self.bar)
 
-class Edit_Item:
+class Create_Custom_Item:
 
-    def __init__(self, conf, model, selection, from_drawer=False):
-
-        self.conf = conf
-        self.model = model
-        self.selection = selection
-        self.from_drawer = from_drawer
-
-        if from_drawer:
-            name = model.get_value(model.get_iter(selection), ID_NAME)
-            command = model.get_value(model.get_iter(selection), ID_CMD)
-            icon = model.get_value(model.get_iter(selection), ID_IMG)
-        else:
-            self.ind = model.get_value(model.get_iter(selection), ID_IND)
-            launcher = conf.launcher[self.ind]
-            name = launcher['name']
-            command = launcher['cmd']
-            icon = launcher['icon']
+    def __init__(self, conf, model=None, selection=None, from_drawer=False, app=None, name=" ", icon=" ", command=" ", widget=None, edit=False):
 
         is_plugin = False
         self.is_drawer = False
         self.plugin_conf = None
+
+	self.conf = conf
+	self.app = app
+	self.widget = widget
+	self.from_drawer = from_drawer
 
         if len(command) > 1 and command[0] == '@':
             is_plugin = True
@@ -1261,7 +1251,10 @@ class Edit_Item:
         but_box.add(button)
 
         button = gtk.Button(stock=gtk.STOCK_OK)
-        button.connect("clicked", self.change_item)
+	if edit:
+	    button.connect("clicked", self.change_item)
+	else:
+	    button.connect("clicked", self.create_item)
         but_box.add(button)
 
         edit_box.pack_end(but_box, False, False) 
@@ -1272,6 +1265,15 @@ class Edit_Item:
         
         ## switch page
         self.conf.switch_page(from_drawer)
+
+    def create_item(self, data):
+	self.conf.new_item_menu(self.widget, self.app)
+
+        self.selection = self.conf.view.get_cursor()[0][0]
+        if (self.selection is not None):
+            self.model = self.conf.view.get_model()
+
+	self.change_item(data)
 
     def change_item(self, data):
         command = self.text_command.get_text()
@@ -1285,6 +1287,7 @@ class Edit_Item:
             self.model.set_value(item, ID_CMD, command)
             self.model.set_value(item, ID_IMG, icon)
         else:
+	    self.ind = self.model.get_value(self.model.get_iter(self.selection), ID_IND)
             launcher = self.conf.launcher[self.ind]
             launcher['name'] = name
             launcher['cmd'] = command
@@ -1384,6 +1387,29 @@ class Edit_Item:
             else:
                 self.text_command.set_text(filename)
         dialog.destroy()
+
+
+class Edit_Item(Create_Custom_Item):
+
+    def __init__(self, conf, model, selection, from_drawer=False):
+
+	self.conf = conf
+        self.model = model
+        self.selection = selection
+
+        if from_drawer:
+            name = model.get_value(model.get_iter(selection), ID_NAME)
+            command = model.get_value(model.get_iter(selection), ID_CMD)
+            icon = model.get_value(model.get_iter(selection), ID_IMG)
+        else:
+            self.ind = model.get_value(model.get_iter(selection), ID_IND)
+            launcher = conf.launcher[self.ind]
+            name = launcher['name']
+            command = launcher['cmd']
+            icon = launcher['icon']
+
+	Create_Custom_Item.__init__(self, conf, model, selection, from_drawer, None, name, icon, command, None, True)
+
 
 class View(gtk.TreeView):
 
