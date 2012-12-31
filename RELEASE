@@ -1,6 +1,9 @@
 0.5.1   - fix bug in plugin "menu"
 	- fix fr translations and translations scripts
 	- fix plugins centering
+	- refactoring
+	- fix add custom item menu behavior
+	- fix bug in systray
 
 0.5.0	- new 'expander' plugin
 		- new system for plugins
