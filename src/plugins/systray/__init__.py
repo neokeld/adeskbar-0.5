@@ -7,10 +7,12 @@
 # INFO:
 # - Uses some code from pyPanel
 
+# adeskbar modules
 import adesk.plugin as Plg
 import adesk.core as Core
 import adesk.ui as UI
 
+# python modules
 import gtk
 import gobject
 import sys
@@ -24,7 +26,8 @@ try:
     from Xlib.protocol import request, rq
 except:
     Core.logINFO('Plugin "systray" need python-xlib')
-    Core.logINFO(' -- debian/ubuntu : "sudo apt-get install python-xlib"')
+    Core.logINFO(' -- debian/mint/ubuntu : "sudo apt-get install python-xlib"')
+    Core.logINFO(' -- fedora : "sudo yum install python-xlib"')
 
 SIZE = 24
 OFFSET = 2
@@ -45,8 +48,7 @@ class Plugin(Plg.PluginContainer):
         self.can_zoom = False
         self.can_show_icon = False
 
-        global BG_COLOR
-        BG_COLOR = bar.cfg['background_color']
+        self.bg_color = bar.cfg['background_color']
 
         self.systray = SysTray(display, error, self, bar)
 
@@ -54,12 +56,12 @@ class Plugin(Plg.PluginContainer):
         Core.logINFO("attempt to cleanly close, in such a way that the icons do not get an X window error")
         self.systray.cleanup()
 
-    def trayWorks(self,widget):
+    def trayWorks(self, widget):
         #~ self.align.add(widget)
         self.add(widget)
 
     def resize(self):
-        if self.bar.cfg['position']=='top' or self.bar.cfg['position']=='bottom':
+        if self.bar.cfg['position'] == 'top' or self.bar.cfg['position'] == 'bottom':
             self.set_size_request(-1, self.cfg['icon_size'])
         else:
             self.set_size_request(self.cfg['icon_size'], -1)
@@ -88,7 +90,7 @@ class SysTray(gtk.Widget):
         self.bar = bar
 
         # Is the Xwindow realized yet? if not, can cause problems with certain functions
-        self.realized= 0
+        self.realized = 0
                                          
         ourmask = (X.ButtonPressMask|X.ButtonReleaseMask|X.ExposureMask)
 
@@ -101,8 +103,8 @@ class SysTray(gtk.Widget):
         self.wind.change_property(self.dsp.intern_atom("_NET_WM_DESKTOP"), Xatom.CARDINAL, 32, [0xffffffffL])
 
         # set background colour to match the screenlet background
-        col = hex(string.atoi(BG_COLOR[1:],16))
-        self.intColour = int(col,16)
+        col = hex(string.atoi(plugin.bg_color[1:], 16))
+        self.intColour = int(col, 16)
         self.wind.change_attributes(background_pixel=self.intColour) 
 
         # Create an empty Object, this will contain all the data on icons
@@ -140,7 +142,6 @@ class SysTray(gtk.Widget):
     def do_realize(self):
         self.set_flags(gtk.REALIZED)
 
-
         #Create a gtk.gdk.Window wrapper around topWindow, child of the screenlets gtk.gdk.Window
         #   -allows masking of the icons through gdk
         #   -also imposes the screenlets window properties on the icons, i.e. no drop shadow, no window decoration
@@ -156,7 +157,6 @@ class SysTray(gtk.Widget):
         #~ self.fakeIcons = gtk.gdk.Window(self.plugin.window,96,48,gtk.gdk.WINDOW_CHILD,0,gtk.gdk.INPUT_OUTPUT)
         #~ self.fakeIcons.move(0,0)
         #~ self.fakeIcons.lower()
-
 
         self.window = gdk.window_foreign_new(self.wind.id)
         self.window.reparent(self.plugin.window, 0, 0)
@@ -183,16 +183,16 @@ class SysTray(gtk.Widget):
 
         self.redraw()
 
-        self.realized= 1
+        self.realized = 1
         # and now we can safely render alpha :D
 
     def do_unrealize(self):
         # The do_unrealized method is responsible for freeing the GDK resources
         # Lol.
-        return 1
+	pass
 
     def do_size_request(self, requisition):
-        # Widget is bieng asked what size it would like to be.
+        # Widget is being asked what size it would like to be.
         requisition.width = self.curr_x
         requisition.height = self.curr_y
 
@@ -207,7 +207,6 @@ class SysTray(gtk.Widget):
             self.window.move_resize(*allocation)
 
     def tr__taskDelete(self, tid):
-    #--------------------------------
         """ Delete the given task ID if it's in the tray/task list """
         if tid in self.tray.tasks:
             del self.tray.tasks[tid]
@@ -218,23 +217,20 @@ class SysTray(gtk.Widget):
     def tr__updatePanel(self, root, win):
 
         for t in self.tray.tasks.values():
-            iwant=0
-            ifail=0
+            iwant = 0
+            ifail = 0
             try:
-                iwant=t.obj.get_wm_normal_hints().min_width
+                iwant = t.obj.get_wm_normal_hints().min_width
             except:
-                ifail=1
-                pass
-            if ifail==0:
+                ifail = 1
+            if ifail == 0:
                 t.width = ICONSIZE
 
         w1 = SIZE + BORDER*2
-        h1 = SIZE + BORDER*2
                
         w = 2 * OFFSET + len(self.tray.order) * (w1 + SPACE) - SPACE
         h = self.bar.cfg['icon_size']
 
-        x1 = OFFSET
         y1 = int((h - SIZE)/2.0) #+ BORDER
 
         if self.bar.cfg['position'] == 'top' or self.bar.cfg['position'] == 'bottom':
@@ -270,79 +266,77 @@ class SysTray(gtk.Widget):
 
 
     def update_alpha_cairo(self):
-            rr = self.window.get_geometry()
-            w, h = rr[2], rr[3]
+        rr = self.window.get_geometry()
+        w, h = rr[2], rr[3]
             
-            pixmap = gtk.gdk.Pixmap(None, w, h, 1)
-            cr = pixmap.cairo_create()
+        pixmap = gtk.gdk.Pixmap(None, w, h, 1)
+        cr = pixmap.cairo_create()
 
-            # Clear the bitmap to False
-            cr.set_source_rgb(0, 0, 0)
-            cr.set_operator(cairo.OPERATOR_DEST_OUT)
-            cr.paint()
+        # Clear the bitmap to False
+        cr.set_source_rgb(0, 0, 0)
+        cr.set_operator(cairo.OPERATOR_DEST_OUT)
+        cr.paint()
 
-            # Draw our shape into the bitmap using cairo
-            cr.set_operator(cairo.OPERATOR_OVER)
-            cr.set_source_rgb(1, 1, 1)
-            cr.set_line_width(1)
-            radius = 4
+        # Draw our shape into the bitmap using cairo
+        cr.set_operator(cairo.OPERATOR_OVER)
+        cr.set_source_rgb(1, 1, 1)
+        cr.set_line_width(1)
+        radius = 4
             
-            w1 = SIZE + BORDER*2
-            h1 = SIZE + BORDER*2
+        w1 = SIZE + BORDER*2
+        h1 = SIZE + BORDER*2
 
-            x1 = OFFSET
-            y1 = int((h - h1)/2.0)
+        x1 = OFFSET
+        y1 = int((h - h1)/2.0)
             
-            if self.bar.cfg['position'] == 'top' or self.bar.cfg['position'] == 'bottom':
-                rect = (x1, y1, w-2*OFFSET, h1)
-            else:
-                y1 = int((w - w1)/2.0)
-                rect = (y1, x1, h1, h-2*OFFSET)
+        if self.bar.cfg['position'] == 'top' or self.bar.cfg['position'] == 'bottom':
+            rect = (x1, y1, w-2*OFFSET, h1)
+        else:
+            y1 = int((w - w1)/2.0)
+            rect = (y1, x1, h1, h-2*OFFSET)
                 
-            self.draw_rounded_rect(cr, rect, radius)
-            self.window.shape_combine_mask(pixmap, 0, 0)
+        self.draw_rounded_rect(cr, rect, radius)
+        self.window.shape_combine_mask(pixmap, 0, 0)
 
     def update_alpha_mask(self):
-            rr = self.window.get_geometry()
-            w, h = rr[2], rr[3]
+        rr = self.window.get_geometry()
+        w, h = rr[2], rr[3]
                        
-            w1 = SIZE + BORDER*2
-            h1 = SIZE + BORDER*2
+        w1 = SIZE + BORDER*2
+        h1 = SIZE + BORDER*2
 
-            x1 = OFFSET + BORDER
-            y1 = int((h - h1)/2.0) + BORDER
+        x1 = OFFSET + BORDER
+        y1 = int((h - h1)/2.0) + BORDER
 
-            self.wind.change_attributes(background_pixel=self.intColour) 
-            tmpwin = gtk.gdk.pixmap_foreign_new(self.wind.id)  
+        self.wind.change_attributes(background_pixel=self.intColour) 
+        tmpwin = gtk.gdk.pixmap_foreign_new(self.wind.id)  
             
-            mask = gtk.gdk.Pixmap (None, w, h, 1)
-            im = mask.get_image(0,0, w, h)
+        mask = gtk.gdk.Pixmap (None, w, h, 1)
+        im = mask.get_image(0, 0, w, h)
             
-            ## reset mask
-            for x in range(0, w):
-                for y in range(0, h):
-                    im.put_pixel(x, y, 0)
+        ## reset mask
+        for x in range(0, w):
+            for y in range(0, h):
+                im.put_pixel(x, y, 0)
 
-            for k in range(len(self.tray.order)):
+        for k in range(len(self.tray.order)): 
+            #Try to update the icon's mask
+            tmpim = gtk.gdk.Image(gtk.gdk.IMAGE_NORMAL, gtk.gdk.visual_get_system(), SIZE, SIZE)
+            tmpwin.copy_to_image(tmpim, x1, y1, 0, 0, SIZE, SIZE)
+
+            for x in range(0, SIZE):
+                for y in range(0, SIZE):
+                    if not tmpim.get_pixel(x, y) == self.intColour:
+                        im.put_pixel(x1+x, y1+y, 1)
                 
-                #Try to update the icon's mask
-                tmpim = gtk.gdk.Image(gtk.gdk.IMAGE_NORMAL,gtk.gdk.visual_get_system(), SIZE, SIZE)
-                tmpwin.copy_to_image(tmpim, x1, y1, 0, 0, SIZE, SIZE)
+            x1 = OFFSET + BORDER + (w1 + SPACE)*k
 
-                for x in range(0, SIZE):
-                    for y in range(0, SIZE):
-                        if not tmpim.get_pixel(x,y)==self.intColour:
-
-                            im.put_pixel(x1+x, y1+y, 1)
-                
-                x1 = OFFSET + BORDER + (w1 + SPACE)*k
-
-            self.window.shape_combine_mask(mask, 0, 0)
+        self.window.shape_combine_mask(mask, 0, 0)
 
     def draw_rounded_rect(self, cr, rect, radius):
         x, y, width, height = rect[0], rect[1], rect[2], rect[3]
         cr.translate(x, y)
-        cr.move_to  (0, radius)
+        cr.move_to (0, radius)
         cr.arc (radius, radius, radius, 3.14, 1.5 * 3.14)
         cr.line_to (width - radius, 0)
         cr.arc (width - radius, 0 + radius, radius, 1.5 * 3.14, 0.0)
@@ -358,7 +352,6 @@ class SysTray(gtk.Widget):
         #~ cr.stroke()
 
     def tr__sendEvent(self, win, ctype, data, mask=None):
-    #------------------------------------------------
         """ Send a ClientMessage event to the root """
         data = (data+[0]*(5-len(data)))[:5]
         ev = Xlib.protocol.event.ClientMessage(window=win,
@@ -368,7 +361,7 @@ class SysTray(gtk.Widget):
             mask = (X.SubstructureRedirectMask|X.SubstructureNotifyMask)
         self.root.send_event(ev, event_mask=mask)
 
-    def tr__testTiming(self,var,var2):
+    def tr__testTiming(self, var, var2):
         # Event "loop"
         # called every 1/10th second, does all events and quits
         # quickest hack towards multi-threading i had ;)
@@ -386,7 +379,7 @@ class SysTray(gtk.Widget):
                 task.obj.configure(onerror=self.error,
                      width=ICONSIZE, height=ICONSIZE)
                 self.tr__updatePanel(self.root, self.wind)
-            if e.type == X.Expose and e.count==0:
+            if e.type == X.Expose and e.count == 0:
                 if(e.window.id==self.wind.id):
                     self.wind.clear_area(0, 0, 0, 0)
                     self.tr__updatePanel(self.root, self.wind)
@@ -395,18 +388,17 @@ class SysTray(gtk.Widget):
                 task = e.data[1][2]
                 if e.client_type == self._OPCODE and data == 0:
                     obj = self.dsp.create_resource_object("window", task)
-                    pid=0
+                    pid = 0
                     try:
-                        pidob= obj.get_property(self._PIDTHING,
+                        pidob = obj.get_property(self._PIDTHING,
                             X.AnyPropertyType, 0, 1024)
                         pid = pidob.value[0]
                     except:
-                        pass
-                    # we either get its Process ID, or an X-error
+			pass
+		    # we either get its Process ID, or an X-error
                     # Yay :D
 
                     if pid:
-
                         obj.reparent(self.tray.window.id, 0, 0)
                         ourmask = (X.ExposureMask|X.StructureNotifyMask)
                         obj.change_attributes(event_mask=ourmask)
@@ -417,7 +409,6 @@ class SysTray(gtk.Widget):
         return True
 
     def tr__setProps(self, dsp, win):
-    #----------------------------
         """ Set necessary X atoms and panel window properties """
         self._ABOVE = dsp.intern_atom("_NET_WM_STATE_ABOVE")
         self._BELOW = dsp.intern_atom("_NET_WM_STATE_BELOW")
@@ -465,7 +456,7 @@ class SysTray(gtk.Widget):
         # not get an X window error
         for tid in self.tray.order:
             t = self.tray.tasks[tid]
-            g= t.obj.query_tree()
+            g = t.obj.query_tree()
             t.obj.unmap()
             t.obj.unmap_sub_windows()
             self.dsp.sync()
@@ -473,8 +464,8 @@ class SysTray(gtk.Widget):
             
         #Release the selection so that other system trays can start.
         #This would be done automatically by the X-server anyway when the screenlet exits
-        request.SetSelectionOwner(display = self.selowin.display, onerror = None, window = 0, selection = self.selection,time = X.CurrentTime)
-        self.tr__sendEvent(self.root, self.manager,[X.CurrentTime, self.selection, 0], (X.StructureNotifyMask))
+        request.SetSelectionOwner(display = self.selowin.display, onerror = None, window = 0, selection = self.selection, time = X.CurrentTime)
+        self.tr__sendEvent(self.root, self.manager, [X.CurrentTime, self.selection, 0], (X.StructureNotifyMask))
         self.dsp.sync()
 
     def redraw(self):
